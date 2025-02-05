@@ -69,13 +69,10 @@ public class BasicGameApp implements Runnable {
 		astroPic = Toolkit.getDefaultToolkit().getImage("download.jpeg");
 		astro2pic = Toolkit.getDefaultToolkit().getImage("goal.png");
 		backgroundpic = Toolkit.getDefaultToolkit().getImage("download (2).png");
-
-		astro = new Astronaut(20,200);
-		astro2 = new Astronaut(100,150);
-
-
-
-	}// BasicGameApp()
+		astro = new Astronaut(20, 200);
+		astro2 = new Astronaut(100, 150);
+	}
+	// BasicGameApp()
 
 
 //*******************************************************************************
