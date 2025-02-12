@@ -3,13 +3,13 @@ import java.awt.*;
 /**
  * Created by chales on 11/6/2017.
  */
-public class Astronaut {
+public class soccer {
 
     //VARIABLE DECLARATION SECTION
     //Here's where you state which variables you are going to use.
     public String name;                //holds the name of the hero
     public int xpos;                //the x position
-    public int ypos;                //the y position
+    public int ypos;//the y position
     public int dx;                    //the speed of the hero in the x direction
     public int dy;                    //the speed of the hero in the y direction
     public int width;
@@ -26,13 +26,13 @@ public class Astronaut {
 
     //This is a SECOND constructor that takes 3 parameters.  This allows us to specify the hero's name and position when we build it.
     // if you put in a String, an int and an int the program will use this constructor instead of the one above.
-    public Astronaut(int pXpos, int pYpos) {
+    public soccer(int pXpos, int pYpos, int pheight, int pwidth) {
         xpos = pXpos;
         ypos = pYpos;
-        dx =5;
-        dy =4;
-        width = 60;
-        height = 60;
+        dx = 4;
+        dy = 4;
+        width = pwidth;
+        height = pheight;
         isAlive = true;
         rec = new Rectangle(xpos,ypos, width, height);
 

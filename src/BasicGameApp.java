@@ -38,14 +38,22 @@ public class BasicGameApp implements Runnable {
 	public JPanel panel;
 
 	public BufferStrategy bufferStrategy;
-	public Image astroPic;
-	public Image astro2pic;
+	public Image soccerballpic;
 	public Image backgroundpic;
+	public Image cleatpic;
+	public Image cleatpic2;
+	public Image goalpic2;
+	public Image goalpic;
+	public int x;
+	public int y;
 
 	//Declare the objects used in the program
 	//These are things that are made up of more than one variable type
-	private Astronaut astro;
-	private Astronaut astro2;
+	private soccer ball;
+	private soccer cleat;
+	private soccer cleat2;
+	private soccer goal;
+	private soccer goal2;
 
 
 	// Main method definition
@@ -66,11 +74,22 @@ public class BasicGameApp implements Runnable {
 
 		//variable and objects
 		//create (construct) the objects needed for the game and load up
-		astroPic = Toolkit.getDefaultToolkit().getImage("download.jpeg");
-		astro2pic = Toolkit.getDefaultToolkit().getImage("goal.png");
+		soccerballpic = Toolkit.getDefaultToolkit().getImage("download.jpeg");
+		goalpic = Toolkit.getDefaultToolkit().getImage("goal.png");
 		backgroundpic = Toolkit.getDefaultToolkit().getImage("download (2).png");
-		astro = new Astronaut(20, 200);
-		astro2 = new Astronaut(100, 150);
+		cleatpic = Toolkit.getDefaultToolkit().getImage("cleat.png");
+		cleatpic2 = Toolkit.getDefaultToolkit().getImage("cleat.png");
+		goalpic = Toolkit.getDefaultToolkit().getImage("goal.png");
+		goalpic2 = Toolkit.getDefaultToolkit().getImage("goal.png");
+		ball = new soccer(20, 200, 40, 40);
+		cleat = new soccer(100, 150,60,60);
+		cleat2 = new soccer(300,200,60,60);
+		goal2 = new soccer(20,250,200,100);
+		goal = new soccer(880, 250,200,100);
+		goal.dx = 0;
+		goal.dy = 0;
+		goal2.dx = 0;
+		goal2.dy = 0; // to make goal not move
 	}
 	// BasicGameApp()
 
@@ -98,27 +117,64 @@ public class BasicGameApp implements Runnable {
 	{
 		//calls the move( ) code in the objects
 		collision();
-		astro.bounce();
-		astro2.wrap();
+		ball.bounce();
+		cleat.bounce();
+		cleat2.bounce();
+		goal.bounce();
+		goal2.bounce();
 
 	}
 
 	public void collision(){
-		if(astro.rec.intersects(astro2.rec) && astro.crash == false && astro2.isAlive == true && astro.isAlive == true){
+		if(ball.rec.intersects(cleat.rec) && ball.crash == false && cleat.isAlive == true && ball.isAlive == true){
 			System.out.println("splat");
-			astro.isAlive = false;
-			astro.dx=-astro.dx;
-			astro.dy = -astro.dy;
-			astro2.dx=-astro2.dx;
-			astro2.dy = -astro2.dy;
-			astro.dx=astro.dx*2;
-			astro.dy=astro.dy*2;
-			astro2.width=astro2.width+10;
-			astro2.height=astro2.height+1;
-			astro.crash = true;
+			ball.isAlive = false;
+			ball.dx=-ball.dx;
+			ball.dy = -ball.dy;
+			cleat.dx=-cleat.dx;
+			cleat.dy = -cleat.dy;
+			ball.dx=ball.dx;
+			ball.dy=ball.dy;
+			cleat.width=cleat.width;
+			cleat.height=cleat.height;
+			ball.crash = true;
 		}
-		if(!astro.rec.intersects(astro2.rec)){
-			astro.crash = false;
+		if(!ball.rec.intersects(cleat.rec)){
+			ball.crash = false;
+		}
+		if(ball.rec.intersects(cleat2.rec) && ball.crash == false && cleat2.isAlive == true && ball.isAlive == true){
+			System.out.println("splat");
+			ball.isAlive = false;
+			ball.dx=-ball.dx;
+			ball.dy = -ball.dy;
+			cleat2.dx=-cleat2.dx;
+			cleat2.dy = -cleat2.dy;
+			ball.dx=ball.dx;
+			ball.dy=ball.dy;
+			cleat2.width=cleat2.width;
+			cleat2.height=cleat2.height;
+			ball.crash = true;
+		}
+		if(!ball.rec.intersects(cleat2.rec)){
+			ball.crash = false;
+		}
+		if(ball.rec.intersects(goal.rec) && ball.crash == false && goal.isAlive == true && ball.isAlive == true){
+			System.out.println("splat");
+			ball.isAlive = false;
+			ball.dx=-ball.dx;
+			ball.dy = -ball.dy;
+			goal.dx=-goal.dx;
+			goal.dy = -goal.dy;
+			ball.dx=ball.dx;
+			ball.dy=ball.dy;
+			goal.width=goal.width;
+			goal.height=goal.height;
+			ball.crash = true;
+
+			System.out.println("score: " + x +1);
+		}
+		if(!ball.rec.intersects(goal.rec)){
+			ball.crash = false;
 		}
 	}
 
@@ -168,8 +224,11 @@ public class BasicGameApp implements Runnable {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 		g.drawImage(backgroundpic,0,0, WIDTH, HEIGHT, null);
-		g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
-		g.drawImage(astro2pic, astro2.xpos, astro2.ypos, astro2.width, astro2.height, null);
+		g.drawImage(soccerballpic, ball.xpos, ball.ypos, ball.width, ball.height, null);
+		g.drawImage(cleatpic, cleat.xpos, cleat.ypos, cleat.width, cleat.height, null);
+		g.drawImage(cleatpic2, cleat2.xpos, cleat2.ypos, cleat2.width, cleat2.height, null);
+		g.drawImage(goalpic2, goal.xpos, goal.ypos, goal.width, goal.height, null);
+		g.drawImage(goalpic, goal2.xpos, goal2.ypos, goal2.width, goal2.height, null);
 		g.dispose();
 		bufferStrategy.show();
 	}
