@@ -26,7 +26,7 @@ public class soccer {
 
     //This is a SECOND constructor that takes 3 parameters.  This allows us to specify the hero's name and position when we build it.
     // if you put in a String, an int and an int the program will use this constructor instead of the one above.
-    public soccer(int pXpos, int pYpos, int pheight, int pwidth) {
+    public soccer(int pXpos, int pYpos, int pheight, int pwidth) { // how i set size and start position and default speed
         xpos = pXpos;
         ypos = pYpos;
         dx = 4;
@@ -38,15 +38,7 @@ public class soccer {
 
     } // constructor
 
-    //The move method.  Everytime this is run (or "called") the hero's x position and y position change by dx and dy
-    public void move() {
-        xpos = xpos + dx;
-        ypos = ypos + dy;
-        rec = new Rectangle(xpos,ypos, width, height);
-
-
-    }
-    public void bounce(){
+    public void bounce(){ // what allows the ball and cleats to move around and bounce of walls
         if(xpos>1000){
             dx=-dx;
         }

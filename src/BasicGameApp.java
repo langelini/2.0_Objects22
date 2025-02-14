@@ -46,6 +46,8 @@ public class BasicGameApp implements Runnable {
 	public Image goalpic;
 	public int x;
 	public int y;
+	public int r;
+	public int t;
 
 	//Declare the objects used in the program
 	//These are things that are made up of more than one variable type
@@ -77,19 +79,20 @@ public class BasicGameApp implements Runnable {
 		soccerballpic = Toolkit.getDefaultToolkit().getImage("download.jpeg");
 		goalpic = Toolkit.getDefaultToolkit().getImage("goal.png");
 		backgroundpic = Toolkit.getDefaultToolkit().getImage("download (2).png");
-		cleatpic = Toolkit.getDefaultToolkit().getImage("cleat.png");
+		cleatpic = Toolkit.getDefaultToolkit().getImage("cleat.png"); // putting images in actual code
 		cleatpic2 = Toolkit.getDefaultToolkit().getImage("cleat.png");
 		goalpic = Toolkit.getDefaultToolkit().getImage("goal.png");
 		goalpic2 = Toolkit.getDefaultToolkit().getImage("goal.png");
-		ball = new soccer(20, 200, 40, 40);
-		cleat = new soccer(100, 150,60,60);
-		cleat2 = new soccer(300,200,60,60);
-		goal2 = new soccer(20,250,200,100);
+		ball = new soccer(500, 350, 40, 40);
+		cleat = new soccer(250, 350,60,60);
+		cleat2 = new soccer(750,350,60,60);
+		goal2 = new soccer(20,250,200,100); // sets size and starting for all of the objects
 		goal = new soccer(880, 250,200,100);
 		goal.dx = 0;
-		goal.dy = 0;
+		goal.dy = 0; // makes the goals stay still
 		goal2.dx = 0;
-		goal2.dy = 0; // to make goal not move
+		goal2.dy = 0;
+		cleat2.dy = -5;// to make cleat2 different from cleat not move
 	}
 	// BasicGameApp()
 
@@ -119,62 +122,115 @@ public class BasicGameApp implements Runnable {
 		collision();
 		ball.bounce();
 		cleat.bounce();
-		cleat2.bounce();
+		cleat2.wrap(); // sets movement one player moves with bounces and the other with wrap to add variability
 		goal.bounce();
 		goal2.bounce();
 
 	}
 
 	public void collision(){
-		if(ball.rec.intersects(cleat.rec) && ball.crash == false && cleat.isAlive == true && ball.isAlive == true){
-			System.out.println("splat");
-			ball.isAlive = false;
-			ball.dx=-ball.dx;
-			ball.dy = -ball.dy;
-			cleat.dx=-cleat.dx;
-			cleat.dy = -cleat.dy;
-			ball.dx=ball.dx;
-			ball.dy=ball.dy;
-			cleat.width=cleat.width;
-			cleat.height=cleat.height;
+		if(ball.rec.intersects(cleat.rec) && ball.crash == false){ //collision for ball and cleat
+			ball.dx=(int)(Math.random()*11);//sets ball to be kicked by cleat at random speed
+			ball.dy = (int)(Math.random()*11);
 			ball.crash = true;
 		}
 		if(!ball.rec.intersects(cleat.rec)){
 			ball.crash = false;
 		}
-		if(ball.rec.intersects(cleat2.rec) && ball.crash == false && cleat2.isAlive == true && ball.isAlive == true){
-			System.out.println("splat");
-			ball.isAlive = false;
-			ball.dx=-ball.dx;
-			ball.dy = -ball.dy;
-			cleat2.dx=-cleat2.dx;
-			cleat2.dy = -cleat2.dy;
-			ball.dx=ball.dx;
-			ball.dy=ball.dy;
-			cleat2.width=cleat2.width;
-			cleat2.height=cleat2.height;
+		if(ball.rec.intersects(cleat2.rec) && ball.crash == false){ // collision for ball and cleat2
+			ball.dx=(int)(Math.random()*11);
+			ball.dy = (int)(Math.random()*11); //sets ball to be kicked by cleat2 at a random speed
+			cleat2.dx=cleat2.dx;
+			cleat2.dy = cleat2.dy;
 			ball.crash = true;
 		}
 		if(!ball.rec.intersects(cleat2.rec)){
 			ball.crash = false;
 		}
-		if(ball.rec.intersects(goal.rec) && ball.crash == false && goal.isAlive == true && ball.isAlive == true){
-			System.out.println("splat");
-			ball.isAlive = false;
-			ball.dx=-ball.dx;
-			ball.dy = -ball.dy;
-			goal.dx=-goal.dx;
-			goal.dy = -goal.dy;
-			ball.dx=ball.dx;
-			ball.dy=ball.dy;
-			goal.width=goal.width;
-			goal.height=goal.height;
+		if(ball.rec.intersects(goal.rec) && ball.crash == false){ // collision for a goal scored with a ball
+			ball.dx=(int)(Math.random()*11);
+			ball.dy = (int)(Math.random()*11);
+			cleat.dy = (int)(Math.random()*11);//sets move speed to be random after a goal and makes ball go towards other teams goal
+			cleat.dx = (int)(Math.random()*11);
+			cleat2.dx=(int)(Math.random()*11);
+			cleat2.dy = (int)(Math.random()*11);
 			ball.crash = true;
+			ball.xpos = 500;
+			ball.ypos = 350; // puts ball at center and cleats at starting positions
+			cleat.xpos = 250;
+			cleat.ypos = 350;
+			cleat2.xpos =750;
+			cleat2.ypos = 350;
+			x=x+1; // changes score
 
-			System.out.println("score: " + x +1);
+			System.out.println("score: " + x + " | " + y);// sets updated score
 		}
 		if(!ball.rec.intersects(goal.rec)){
 			ball.crash = false;
+		}
+		if(ball.rec.intersects(goal2.rec) && ball.crash == false){ // collision for left goal with a ball
+			ball.dx=-(int)(Math.random()*11);
+			ball.dy = -(int)(Math.random()*11);
+			cleat.dy = (int)(Math.random()*11);//sets move speed to be random after a goal and makes ball go towards other teams goal
+			cleat.dx = (int)(Math.random()*11);
+			cleat2.dx=(int)(Math.random()*11);
+			cleat2.dy = (int)(Math.random()*11);
+			ball.crash = true;
+			ball.xpos = 500;
+			ball.ypos = 350; // puts ball at center and cleats at starting positions
+			cleat.xpos = 250;
+			cleat.ypos = 350;
+			cleat2.xpos =750;
+			cleat2.ypos = 350;
+
+			y=y+1; // changes score
+
+			System.out.println("score: " + x + " | " + y);// sets new score
+		}
+		if(!ball.rec.intersects(goal.rec)){
+			ball.crash = false;
+		}
+		if(cleat.rec.intersects(cleat2.rec) && cleat.crash == false){ // collision for ball and cleat2
+			cleat.dx=-(int)(Math.random()*11);
+			cleat.dy = (int)(Math.random()*11);
+			cleat2.dx=(int)(Math.random()*11);
+			cleat2.dy = (int)(Math.random()*11);//collisions change speed to random interval
+			cleat.crash = true;
+		}
+		if(!cleat.rec.intersects(cleat2.rec)){
+			cleat.crash = false;
+		}
+		if(y >5 && r<2){
+			System.out.println("right wins!");
+			r=r+2;
+			cleat.height = 0;
+			cleat2.dx = 0;
+			ball.height= 0;
+			goal.height = 0;
+			cleat2.dy = 0;
+			cleat2.xpos = 470;
+			cleat2.ypos = 350;
+			cleat.width = 0;
+			ball.width = 0;
+			goal.width = 0;
+			goal2.width = 0;
+			goal2.height = 0;
+		}
+		if(x >5 && t<2){
+			System.out.println("left wins!");
+			t=t+2;
+			cleat.height = 0;
+			cleat2.dx = 0;
+			ball.height= 0;
+			goal.height = 0;
+			cleat2.dy = 0;
+			cleat2.xpos = 470;
+			cleat2.ypos = 350;
+			cleat.width = 0;
+			ball.width = 0;
+			goal.width = 0;
+			goal2.width = 0;
+			goal2.height = 0;
 		}
 	}
 
@@ -228,7 +284,10 @@ public class BasicGameApp implements Runnable {
 		g.drawImage(cleatpic, cleat.xpos, cleat.ypos, cleat.width, cleat.height, null);
 		g.drawImage(cleatpic2, cleat2.xpos, cleat2.ypos, cleat2.width, cleat2.height, null);
 		g.drawImage(goalpic2, goal.xpos, goal.ypos, goal.width, goal.height, null);
-		g.drawImage(goalpic, goal2.xpos, goal2.ypos, goal2.width, goal2.height, null);
+		g.drawImage(goalpic, goal2.xpos, goal2.ypos, goal2.width, goal2.height, null);// creates the images
+		g.setColor(Color.blue);
+		g.setFont(new Font("Comic Sans MS", Font.PLAIN, 24)); // draws scoreboard
+		g.drawString("score: "+x + " | " + y, 455, 20);
 		g.dispose();
 		bufferStrategy.show();
 	}
